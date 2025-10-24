@@ -8,12 +8,16 @@ class CustomTextField extends StatefulWidget {
     this.hintText,
     this.maxLines,
     this.keyboardType,
+    this.controller,
+    this.onSubmitted,
   });
 
   final bool isPassword;
   final String? hintText;
   final int? maxLines;
   final TextInputType? keyboardType;
+  final TextEditingController? controller;
+  final Function? onSubmitted;
 
   @override
   State<CustomTextField> createState() => _CustomTextFieldState();
@@ -30,6 +34,7 @@ class _CustomTextFieldState extends State<CustomTextField> {
         borderRadius: BorderRadius.circular(12),
       ),
       child: TextField(
+        controller: widget.controller,
         obscureText: (widget.isPassword) ? _obscure : false,
         style: const TextStyle(color: Colors.white),
         maxLines: widget.maxLines ?? 1,

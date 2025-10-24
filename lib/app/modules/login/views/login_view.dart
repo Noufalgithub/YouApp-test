@@ -37,16 +37,26 @@ class LoginView extends GetView<LoginController> {
                 ),
               ),
             ),
-            const CustomTextField(hintText: 'Enter Username/Email'),
+            CustomTextField(
+              controller: controller.emailController,
+              hintText: 'Enter Username/Email',
+            ),
             const SizedBox(height: 16),
-            const CustomTextField(isPassword: true, hintText: 'Enter Password'),
+            CustomTextField(
+              controller: controller.passwordController,
+              isPassword: true,
+              hintText: 'Enter Password',
+            ),
             const SizedBox(height: 24),
-            CustomButton(
-              text: 'Login',
-              isActive: true,
-              onPressed: () {
-                Get.offAllNamed(Routes.HOME);
-              },
+            Obx(
+              () => CustomButton(
+                text: 'Login',
+                isLoading: controller.isLoading.value,
+                isActive: controller.isButtonActive.value,
+                onPressed: controller.isButtonActive.value
+                    ? () => controller.login()
+                    : null,
+              ),
             ),
             const SizedBox(height: 40),
             RichText(

@@ -1,33 +1,20 @@
-import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 class EditInterestController extends GetxController {
-  final Rx<TextEditingController> interestController =
-      TextEditingController().obs;
-  final RxList<String> interests = ['Gaming'].obs;
+  final RxList<String?> interests = <String?>[].obs;
 
-  void addInterest(String text) {
-    if (text.trim().isEmpty) return;
-    interests.add(text.trim());
-    interestController.value.clear();
+  void addInterest(String value) {
+    final trimmed = value.trim();
+    if (trimmed.isEmpty) return;
+    if (!interests.contains(trimmed)) {
+      interests.add(trimmed);
+    }
   }
 
-  void removeInterest(String text) {
-    interests.remove(text);
+  void removeInterest(String value) {
+    interests.remove(value);
   }
 
-  // @override
-  // void onInit() {
-  //   super.onInit();
-  // }
-
-  // @override
-  // void onReady() {
-  //   super.onReady();
-  // }
-
-  // @override
-  // void onClose() {
-  //   super.onClose();
-  // }
+  bool get isEmpty =>
+      interests.isEmpty || interests.every((e) => e!.trim().isEmpty);
 }

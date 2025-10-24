@@ -11,14 +11,16 @@ class EditInterestView extends GetView<EditInterestController> {
   const EditInterestView({super.key});
   @override
   Widget build(BuildContext context) {
+    final TextEditingController interestController = TextEditingController();
+
     final Shader linearGradient = const LinearGradient(
       colors: <Color>[Color(0xFFABFFFD), Color(0xFF4599DB), Color(0xFFAADAFF)],
       begin: Alignment.topLeft,
       end: Alignment.bottomRight,
     ).createShader(const Rect.fromLTWH(0.0, 0.0, 200.0, 70.0));
 
-    return Obx(
-      () => Scaffold(
+    return Obx(() {
+      return Scaffold(
         backgroundColor: Colors.black,
         extendBodyBehindAppBar: true,
         appBar: AppBar(
@@ -31,7 +33,23 @@ class EditInterestView extends GetView<EditInterestController> {
           ),
           actions: [
             TextButton(
-              onPressed: () {},
+              onPressed: () {
+                if (interestController.text.isEmpty) {
+                  if (Get.isSnackbarOpen) {
+                    Get.back();
+                  }
+
+                  Get.snackbar(
+                    'Error',
+                    'Masukkan minimal 1 interest',
+                    backgroundColor: Colors.redAccent,
+                    colorText: Colors.white,
+                  );
+                  return;
+                }
+                controller.addInterest(interestController.text);
+                interestController.clear();
+              },
               child: Text(
                 'Save',
                 style: TextStyle(
@@ -72,25 +90,34 @@ class EditInterestView extends GetView<EditInterestController> {
                   ],
                 ),
               ),
-              const CustomTextField(hintText: 'e.g. Travel, Music, Sports'),
-              const SizedBox(height: 12),
-              Wrap(
-                spacing: 8,
-                runSpacing: 8,
-                children: controller.interests.map((item) {
-                  return Chip(
-                    label: Text(item),
-                    backgroundColor: Colors.black26,
-                    labelStyle: const TextStyle(color: Colors.white),
-                    deleteIcon: const Icon(Icons.close, color: Colors.white),
-                    onDeleted: () => controller.removeInterest(item),
-                  );
-                }).toList(),
+              CustomTextField(
+                controller: interestController,
+                hintText: 'e.g. Travel, Music, Sports',
               ),
+              const SizedBox(height: 12),
+              (controller.interests.isEmpty)
+                  ? const SizedBox()
+                  : Wrap(
+                      spacing: 8,
+                      runSpacing: 8,
+                      children: controller.interests.map((item) {
+                        return Chip(
+                          label: Text(item ?? ''),
+                          backgroundColor: const Color(0xFF344649),
+                          labelStyle: const TextStyle(color: Colors.white),
+                          deleteIcon: const Icon(
+                            Icons.close,
+                            color: Colors.white,
+                          ),
+                          onDeleted: () =>
+                              controller.removeInterest(item ?? ''),
+                        );
+                      }).toList(),
+                    ),
             ],
           ),
         ),
-      ),
-    );
+      );
+    });
   }
 }

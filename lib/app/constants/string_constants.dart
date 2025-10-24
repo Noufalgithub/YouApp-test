@@ -1,3 +1,3 @@
 class StringConstants {
-  static const String lastReadNomorSurah = 'lastReadNomorSurah';
+  static const String token = 'token';
 }
