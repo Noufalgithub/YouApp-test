@@ -9,6 +9,7 @@ class DioClient {
             connectTimeout: const Duration(seconds: 15),
             receiveTimeout: const Duration(seconds: 15),
             responseType: ResponseType.json,
+            validateStatus: (status) => status! < 500,
           ),
         )
         ..interceptors.addIf(

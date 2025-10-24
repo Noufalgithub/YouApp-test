@@ -4,7 +4,6 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:you_app_test/app/constants/app_colors.dart';
-import 'package:you_app_test/app/routes/app_pages.dart';
 import 'package:you_app_test/app/widgets/background/custom_background.dart';
 import 'package:you_app_test/app/widgets/button/custom_button.dart';
 import 'package:you_app_test/app/widgets/text_field/custom_text_field.dart';
@@ -27,8 +26,8 @@ class RegisterView extends GetView<RegisterController> {
           onPressed: () => Get.back(),
         ),
       ),
-      body: CustomBackground(
-        child: Expanded(
+      body: Obx(
+        () => CustomBackground(
           child: ListView(
             padding: const EdgeInsets.all(24),
             children: [
@@ -43,26 +42,48 @@ class RegisterView extends GetView<RegisterController> {
                   ),
                 ),
               ),
-              const CustomTextField(hintText: 'Enter Email'),
+              CustomTextField(
+                controller: controller.emailController,
+                hintText: 'Enter Email',
+                keyboardType: TextInputType.emailAddress,
+              ),
               const SizedBox(height: 16),
-              const CustomTextField(hintText: 'Create Username'),
+              CustomTextField(
+                controller: controller.usernameController,
+                hintText: 'Create Username',
+              ),
               const SizedBox(height: 16),
-              const CustomTextField(
+              CustomTextField(
+                controller: controller.passwordController,
                 isPassword: true,
                 hintText: 'Create Password',
               ),
+              (controller.isPasswordValid.value)
+                  ? const SizedBox()
+                  : const Text(
+                      'Password minimal 8 karakter',
+                      style: TextStyle(color: Colors.red, fontSize: 12),
+                    ),
               const SizedBox(height: 16),
-              const CustomTextField(
+              CustomTextField(
+                controller: controller.confirmPasswordController,
                 isPassword: true,
                 hintText: 'Confirm Password',
               ),
+              (controller.isConfirmPasswordValid.value)
+                  ? const SizedBox()
+                  : const Text(
+                      'Password tidak sama',
+                      style: TextStyle(color: Colors.red, fontSize: 12),
+                    ),
               const SizedBox(height: 24),
               CustomButton(
                 text: 'Register',
-                isActive: true,
-                onPressed: () {
-                  Get.offAllNamed(Routes.HOME);
-                },
+                isLoading: controller.isLoading.value,
+                isActive: controller.isButtonActive.value,
+                onPressed: controller.isButtonActive.value
+                    ? () => controller.register()
+                    : null,
               ),
               const SizedBox(height: 40),
               RichText(

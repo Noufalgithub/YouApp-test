@@ -44,11 +44,14 @@ class LoginController extends GetxController {
         username: emailController.text,
         password: passwordController.text,
       );
+
       final token = response.data['access_token'];
+      if (token == null || token.isEmpty) {
+        throw Exception(response.data['message'] ?? 'Token tidak valid');
+      }
 
-      // save token to storage
+      // Simpan token & redirect
       box.write(StringConstants.token, token);
-
       Get.offAllNamed(Routes.HOME);
     } catch (e) {
       if (Get.isSnackbarOpen) {
