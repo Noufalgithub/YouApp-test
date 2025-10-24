@@ -1,5 +1,9 @@
 import 'package:get/get.dart';
 
+import '../modules/edit_about/bindings/edit_about_binding.dart';
+import '../modules/edit_about/views/edit_about_view.dart';
+import '../modules/edit_interest/bindings/edit_interest_binding.dart';
+import '../modules/edit_interest/views/edit_interest_view.dart';
 import '../modules/home/bindings/home_binding.dart';
 import '../modules/home/views/home_view.dart';
 import '../modules/login/bindings/login_binding.dart';
@@ -29,6 +33,16 @@ class AppPages {
       name: _Paths.REGISTER,
       page: () => const RegisterView(),
       binding: RegisterBinding(),
+    ),
+    GetPage(
+      name: _Paths.EDIT_INTEREST,
+      page: () => const EditInterestView(),
+      binding: EditInterestBinding(),
+    ),
+    GetPage(
+      name: _Paths.EDIT_ABOUT,
+      page: () => const EditAboutView(),
+      binding: EditAboutBinding(),
     ),
   ];
 }

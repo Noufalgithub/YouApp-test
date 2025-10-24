@@ -2,10 +2,18 @@ import 'package:flutter/material.dart';
 import 'package:you_app_test/app/constants/app_colors.dart';
 
 class CustomTextField extends StatefulWidget {
-  const CustomTextField({super.key, this.isPassword = false, this.hintText});
+  const CustomTextField({
+    super.key,
+    this.isPassword = false,
+    this.hintText,
+    this.maxLines,
+    this.keyboardType,
+  });
 
   final bool isPassword;
   final String? hintText;
+  final int? maxLines;
+  final TextInputType? keyboardType;
 
   @override
   State<CustomTextField> createState() => _CustomTextFieldState();
@@ -24,6 +32,8 @@ class _CustomTextFieldState extends State<CustomTextField> {
       child: TextField(
         obscureText: (widget.isPassword) ? _obscure : false,
         style: const TextStyle(color: Colors.white),
+        maxLines: widget.maxLines ?? 1,
+        keyboardType: widget.keyboardType,
         decoration: InputDecoration(
           hintText: widget.hintText ?? '',
           hintStyle: TextStyle(color: Colors.white.withOpacity(0.5)),

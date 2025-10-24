@@ -19,8 +19,8 @@ class RegisterView extends GetView<RegisterController> {
       backgroundColor: Colors.black,
       extendBodyBehindAppBar: true,
       appBar: AppBar(
-        backgroundColor: Colors.transparent, // transparan
-        elevation: 0, // tanpa bayangan
+        backgroundColor: Colors.transparent,
+        elevation: 0,
         title: const Text('Back', style: TextStyle(color: Colors.white)),
         leading: IconButton(
           icon: const Icon(Icons.arrow_back, color: Colors.white),
