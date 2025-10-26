@@ -1,4 +1,6 @@
+import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:you_app_test/app/data/models/profile_model/profile_model.dart';
 import 'package:you_app_test/app/data/services/home_service.dart';
 
 class HomeController extends GetxController {
@@ -6,30 +8,30 @@ class HomeController extends GetxController {
 
   final HomeService _homeService = HomeService();
 
+  var profileModel = Rxn<ProfileModel>();
+
   @override
   void onInit() {
     super.onInit();
-    // getProfile();
+    getProfile();
   }
 
-  // Future<void> getProfile() async {
-  //   isLoading.value = true;
+  Future<void> getProfile() async {
+    isLoading.value = true;
+    profileModel.value = null;
 
-  //   try {
-  //     await _homeService.getProfile();
-  //   } catch (e) {
-  //     if (Get.isSnackbarOpen) {
-  //       Get.back();
-  //     }
-
-  //     Get.snackbar(
-  //       'Gagal',
-  //       e.toString().replaceAll('Exception: ', ''),
-  //       colorText: Colors.white,
-  //       backgroundColor: Colors.redAccent,
-  //     );
-  //   } finally {
-  //     isLoading.value = false;
-  //   }
-  // }
+    try {
+      final response = await _homeService.getProfile();
+      profileModel.value = response;
+    } catch (e) {
+      Get.snackbar(
+        'Gagal',
+        e.toString().replaceAll('Exception: ', ''),
+        colorText: Colors.white,
+        backgroundColor: Colors.redAccent,
+      );
+    } finally {
+      isLoading.value = false;
+    }
+  }
 }
