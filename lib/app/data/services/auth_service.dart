@@ -1,5 +1,10 @@
+import 'dart:ui';
+
 import 'package:dio/dio.dart';
+import 'package:get/get.dart' as this_is_get;
 import 'package:you_app_test/app/constants/api_constants.dart';
+import 'package:you_app_test/app/routes/app_pages.dart';
+import 'package:you_app_test/main.dart';
 
 import '../dio/dio_client.dart';
 
@@ -55,6 +60,23 @@ class AuthService {
       return response;
     } on DioException catch (e) {
       throw Exception(e.response?.data['error'] ?? 'Register gagal');
+    }
+  }
+
+  Future<void> logout() async {
+    try {
+      // Hapus semua data user & token
+      await box.erase();
+
+      // Redirect ke halaman login
+      this_is_get.Get.offAllNamed(Routes.LOGIN);
+    } catch (e) {
+      this_is_get.Get.snackbar(
+        'Gagal Logout',
+        e.toString().replaceAll('Exception: ', ''),
+        colorText: const Color(0xFFFFFFFF),
+        backgroundColor: const Color(0xFFD32F2F),
+      );
     }
   }
 }

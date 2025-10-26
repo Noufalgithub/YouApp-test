@@ -19,14 +19,7 @@ class HomeService {
         throw Exception(response.data['message'] ?? 'Get profile gagal');
       }
 
-      final body = response.data;
-      final data = body['data'];
-
-      if (data == null) {
-        throw Exception('Data profil kosong');
-      }
-
-      return ProfileModel.fromJson(data);
+      return ProfileModel.fromJson(response.data);
     } on DioException catch (e) {
       final message =
           e.response?.data['message'] ??

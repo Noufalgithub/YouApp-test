@@ -19,15 +19,25 @@ class HomeView extends GetView<HomeController> {
         elevation: 0,
         title: const Text('@Johndoe', style: TextStyle(color: Colors.white)),
         centerTitle: true,
+        actions: [
+          IconButton(
+            onPressed: () {
+              controller.logout();
+            },
+            tooltip: "Logout",
+            icon: const Icon(Icons.logout_outlined, color: Colors.white),
+          ),
+          const SizedBox(width: 12),
+        ],
       ),
       body: ListView(
         padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
-        children: const [
-          BannerWidget(),
-          SizedBox(height: 16),
-          AboutWidget(),
-          SizedBox(height: 16),
-          InterestWidget(),
+        children: [
+          const BannerWidget(),
+          const SizedBox(height: 16),
+          AboutWidget(controller: controller),
+          const SizedBox(height: 16),
+          const InterestWidget(),
         ],
       ),
     );
