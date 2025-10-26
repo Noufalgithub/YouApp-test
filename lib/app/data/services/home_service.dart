@@ -1,5 +1,6 @@
 import 'package:dio/dio.dart';
 import 'package:you_app_test/app/constants/api_constants.dart';
+import 'package:you_app_test/app/data/models/profile_model/profile_model.dart';
 
 import '../dio/dio_client.dart';
 
@@ -10,29 +11,30 @@ class HomeService {
   bool _isSuccess(int? status) =>
       status != null && status >= 200 && status < 300;
 
-  Future<Response> getProfile() async {
+  Future<ProfileModel> getProfile() async {
     try {
       final response = await _dio.get(ApiConstants.getProfile);
 
       if (!_isSuccess(response.statusCode)) {
-        throw Exception(response.data['message'] ?? 'Get Profile gagal');
+        throw Exception(response.data['message'] ?? 'Get profile gagal');
       }
 
-      return response;
+      final body = response.data;
+      final data = body['data'];
+
+      if (data == null) {
+        throw Exception('Data profil kosong');
+      }
+
+      return ProfileModel.fromJson(data);
     } on DioException catch (e) {
-      throw Exception(e.response?.data['error'] ?? 'Get Profile gagal');
+      final message =
+          e.response?.data['message'] ??
+          e.message ??
+          'Gagal mengambil data profil';
+      throw Exception(message);
     }
   }
-
-  // Future<List<SurahModel>> getProfile() async {
-  //   try {
-  //     final response = await _dio.get(ApiConstants.getProfile);
-  //     final List data = response.data;
-  //     return data.map((e) => SurahModel.fromJson(e)).toList();
-  //   } on DioException catch (e) {
-  //     throw Exception(e.message);
-  //   }
-  // }
 
   Future<Response> createProfile({
     required String name,
