@@ -1,6 +1,7 @@
 import 'package:dio/dio.dart';
+import 'package:you_app_test/app/constants/api_constants.dart';
 
-import 'dio_client.dart';
+import '../dio/dio_client.dart';
 
 class AuthService {
   final Dio _dio = DioClient.instance;
@@ -16,7 +17,7 @@ class AuthService {
   }) async {
     try {
       final response = await _dio.post(
-        'api/login',
+        ApiConstants.login,
         data: {'email': email, 'username': username, 'password': password},
       );
 
@@ -43,9 +44,14 @@ class AuthService {
   }) async {
     try {
       final response = await _dio.post(
-        'api/register',
+        ApiConstants.register,
         data: {'email': email, 'username': username, 'password': password},
       );
+
+      if (!_isSuccess(response.statusCode)) {
+        throw Exception(response.data['message'] ?? 'Register gagal');
+      }
+
       return response;
     } on DioException catch (e) {
       throw Exception(e.response?.data['error'] ?? 'Register gagal');

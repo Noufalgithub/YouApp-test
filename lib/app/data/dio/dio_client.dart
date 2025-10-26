@@ -1,11 +1,12 @@
 import 'package:dio/dio.dart';
 import 'package:flutter/foundation.dart';
+import 'package:you_app_test/app/constants/api_constants.dart';
 
 class DioClient {
   static final Dio _dio =
       Dio(
           BaseOptions(
-            baseUrl: 'https://techtest.youapp.ai/',
+            baseUrl: ApiConstants.baseUrl,
             connectTimeout: const Duration(seconds: 15),
             receiveTimeout: const Duration(seconds: 15),
             responseType: ResponseType.json,

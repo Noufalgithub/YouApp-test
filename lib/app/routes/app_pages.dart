@@ -17,6 +17,7 @@ class AppPages {
   AppPages._();
 
   static const initial = Routes.LOGIN;
+  static const hasLoggedIn = Routes.HOME;
 
   static final routes = [
     GetPage(

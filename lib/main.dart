@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:get_storage/get_storage.dart';
+import 'package:you_app_test/app/constants/string_constants.dart';
 
 import 'app/routes/app_pages.dart';
 
@@ -16,7 +17,9 @@ void main() async {
     GetMaterialApp(
       debugShowCheckedModeBanner: false,
       title: "YouApp Test",
-      initialRoute: AppPages.initial,
+      initialRoute: (box.read(StringConstants.token) != null)
+          ? AppPages.hasLoggedIn
+          : AppPages.initial,
       getPages: AppPages.routes,
       theme: ThemeData(
         scaffoldBackgroundColor: Colors.grey.shade50,
