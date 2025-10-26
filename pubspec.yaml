@@ -37,12 +37,12 @@ flutter:
     - assets/icons/
 
 flutter_native_splash:
-  color: "#09141A" # background color
-  image: assets/images/logo-quran-apps.png # logo tengah
+  color: "#FFFFFF" # background color
+  image: assets/images/logo.png # logo tengah
 
   android_12:
-    image: assets/images/logo-quran-apps.png
-    icon_background_color: "#09141A"
+    image: assets/images/logo.png
+    icon_background_color: "#FFFFFF"
 
   web: false
  
