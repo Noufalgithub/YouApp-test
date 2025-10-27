@@ -34,7 +34,7 @@ class HomeService {
     required String birhday,
     required int height,
     required int weight,
-    required List<String> interests,
+    required List<dynamic> interests,
   }) async {
     try {
       final response = await _dio.post(
@@ -63,7 +63,7 @@ class HomeService {
     required String birhday,
     required int height,
     required int weight,
-    required List<String> interests,
+    required List<dynamic> interests,
   }) async {
     try {
       final response = await _dio.put(
