@@ -37,7 +37,7 @@ class HomeView extends GetView<HomeController> {
           const SizedBox(height: 16),
           AboutWidget(controller: controller),
           const SizedBox(height: 16),
-          const InterestWidget(),
+          InterestWidget(controller: controller),
         ],
       ),
     );
