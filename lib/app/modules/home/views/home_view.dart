@@ -33,7 +33,7 @@ class HomeView extends GetView<HomeController> {
       body: ListView(
         padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
         children: [
-          const BannerWidget(),
+          BannerWidget(controller: controller),
           const SizedBox(height: 16),
           AboutWidget(controller: controller),
           const SizedBox(height: 16),

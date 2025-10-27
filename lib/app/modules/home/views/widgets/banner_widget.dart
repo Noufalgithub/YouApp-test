@@ -1,7 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:get/get_state_manager/get_state_manager.dart';
+import 'package:you_app_test/app/modules/home/controllers/home_controller.dart';
 
 class BannerWidget extends StatelessWidget {
-  const BannerWidget({super.key});
+  const BannerWidget({super.key, required this.controller});
+
+  final HomeController controller;
 
   @override
   Widget build(BuildContext context) {
@@ -11,53 +15,64 @@ class BannerWidget extends StatelessWidget {
       padding: const EdgeInsets.all(16),
       decoration: BoxDecoration(
         color: const Color(0xFF162329),
-        // image: const DecorationImage(
-        //   image: NetworkImage(
-        //     'https://images.unsplash.com/photo-1506744038136-46273834b3fb?auto=format&fit=crop&w=800&q=80',
-        //   ),
-        //   fit: BoxFit.cover,
-        // ),
+        image: const DecorationImage(
+          image: NetworkImage(
+            'https://images.unsplash.com/photo-1506744038136-46273834b3fb?auto=format&fit=crop&w=800&q=80',
+          ),
+          fit: BoxFit.cover,
+        ),
         borderRadius: BorderRadius.circular(12),
       ),
-      child: const Align(
-        alignment: Alignment.bottomLeft,
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Text(
-              "@Jhondoe's Profile Banner, 28",
-              maxLines: 1,
-              style: TextStyle(
-                color: Colors.white,
-                fontSize: 16,
-                fontWeight: FontWeight.bold,
+      child: Obx(() {
+        var data = controller.profileModel.value?.data;
+
+        return Align(
+          alignment: Alignment.bottomLeft,
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text(
+                data?.name ?? '',
+                maxLines: 1,
+                style: const TextStyle(
+                  color: Colors.white,
+                  fontSize: 16,
+                  fontWeight: FontWeight.bold,
+                ),
               ),
-            ),
-            Text("Male", style: TextStyle(color: Colors.white, fontSize: 14)),
-            Row(
-              children: [
-                LabelWidget(
-                  icon: Icon(
-                    Icons.outlet_outlined,
-                    color: Colors.white,
-                    size: 14,
-                  ),
-                  label: 'Virgo',
-                ),
-                LabelWidget(
-                  icon: Icon(
-                    Icons.outlet_outlined,
-                    color: Colors.white,
-                    size: 14,
-                  ),
-                  label: 'Pig',
-                ),
-              ],
-            ),
-          ],
-        ),
-      ),
+              const Text(
+                "Male",
+                style: TextStyle(color: Colors.white, fontSize: 14),
+              ),
+              Row(
+                children: [
+                  (data?.horoscope == null || data!.horoscope!.isEmpty)
+                      ? const SizedBox.shrink()
+                      : LabelWidget(
+                          icon: const Icon(
+                            Icons.android_outlined,
+                            color: Colors.white,
+                            size: 14,
+                          ),
+                          label: data.horoscope ?? '',
+                        ),
+                  (data?.zodiac == null || data!.zodiac!.isEmpty)
+                      ? const SizedBox.shrink()
+                      : LabelWidget(
+                          icon: const Icon(
+                            Icons.android_outlined,
+                            color: Colors.white,
+                            size: 14,
+                          ),
+                          label: data.zodiac ?? '',
+                        ),
+                ],
+              ),
+            ],
+          ),
+        );
+      }),
     );
   }
 }
