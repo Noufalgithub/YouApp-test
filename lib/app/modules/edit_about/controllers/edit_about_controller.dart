@@ -30,10 +30,13 @@ class EditAboutController extends GetxController {
     required String birhday,
     required int height,
     required int weight,
+    List? interest,
   }) async {
-    loadingBuilder();
+    if (interest == null) {
+      loadingBuilder();
+    }
 
-    var interests = homeController.profileModel.value?.data?.interests ?? [];
+    var dataInterest = homeController.profileModel.value?.data?.interests ?? [];
 
     try {
       await _homeService
@@ -42,33 +45,39 @@ class EditAboutController extends GetxController {
             birhday: birhday,
             height: height,
             weight: weight,
-            interests: interests,
+            interests: interest ?? dataInterest,
           )
           .then((value) {
             // update profile
             homeController.getProfile();
           });
 
-      // Close dialog loading
-      Get.back();
+      if (interest == null) {
+        // Close dialog loading
+        Get.back();
+      }
 
-      Get.dialog(
-        AlertDialog(
-          title: const Text('Update Successful'),
-          content: const Text('Your profile has been updated successfully.'),
-          actions: [
-            TextButton(
-              onPressed: () {
-                Get.back();
-              },
-              child: const Text('OK'),
-            ),
-          ],
-        ),
-      );
+      if (interest == null) {
+        Get.dialog(
+          AlertDialog(
+            title: const Text('Update Successful'),
+            content: const Text('Your profile has been updated successfully.'),
+            actions: [
+              TextButton(
+                onPressed: () {
+                  Get.back();
+                },
+                child: const Text('OK'),
+              ),
+            ],
+          ),
+        );
+      }
     } catch (e) {
-      // Close dialog loading
-      Get.back();
+      if (interest == null) {
+        // Close dialog loading
+        Get.back();
+      }
 
       // Close snackbar
       if (Get.isSnackbarOpen) {
